@@ -1,0 +1,34 @@
+{
+	"geode": "4.2.1",
+	"early-load": true,
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074"
+	},
+	"id": "user95401.umbral-abyss",
+	"name": "Umbral Abyss",
+	"version": "v0.0.1",
+	"developer": "user95401",
+	"description": "turns geometry dash to my first game ever",
+	"tags": [ "interface", "offline", "gameplay", "content" ],
+	"links": {
+		"community": "https://discord.gg/6SxAbk3bTA",
+		"homepage": "https://t.me/user95401_channel",
+		"source": "https://github.com/user95401/Umbral-Abyss"
+	},
+	"dependencies": [
+		{
+			"id": "geode.node-ids",
+			"version": ">=v1.13.1",
+			"importance": "required"
+		}
+	],
+	"resources": {
+		"files": [
+			"assets/files/**/*"
+		],
+		"sprites": [
+			"assets/sprites/**/*"
+		]
+	}
+}
