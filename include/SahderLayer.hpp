@@ -14,7 +14,7 @@ public:
 
 class SahderLayer : public CCSprite {
 public:
-	CCGLProgram* m_shaderProgram;
+	Ref<CCGLProgram> m_shaderProgram;
 	Ref<CCRenderTexture> m_renderTexture;
 	Ref<ShaderValueContainer> m_mainValueContainer;
 	float m_time;
@@ -34,13 +34,15 @@ public:
 	};
 
 	virtual bool init(const char* vShaderFilename, const char* fShaderFilename) {
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		if (!CCSprite::init()) return false;
-
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		m_mainValueContainer = ShaderValueContainer::create();
-
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		m_renderTexture = CCRenderTexture::create(111, 111);
-
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		m_shaderProgram = new CCGLProgram();
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		log::debug(
 			"{}.shaderInitResult({}) = {}", __func__, fShaderFilename,
 			m_shaderProgram->initWithVertexShaderFilename(vShaderFilename, fShaderFilename)
@@ -104,11 +106,11 @@ public:
 	}
 
 	virtual void draw() {
-
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		m_onDrawBegin();
-
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		CC_NODE_DRAW_SETUP();
-
+log::debug("{}:{}",__FUNCTION__,__LINE__);
 		GLint timeLocation = glGetUniformLocation(m_shaderProgram->getProgram(), "time");
 		glUniform1f(timeLocation, m_time);
 
