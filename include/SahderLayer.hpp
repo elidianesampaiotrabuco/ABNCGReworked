@@ -48,8 +48,8 @@ log::debug("{}:{}",__FUNCTION__,__LINE__);
 		log::debug(
 			"{}.shaderInitResult({}) = {}", __func__, fShaderFilename,
 			m_shaderProgram->initWithVertexShaderFilename(
-				CCFileUtils::sharedFileUtils()->fullPathForFilename(vShaderFilename).c_str(),
-				CCFileUtils::sharedFileUtils()->fullPathForFilename(fShaderFilename).c_str()
+				CCFileUtils::sharedFileUtils()->fullPathForFilename(vShaderFilename, 0).c_str(),
+				CCFileUtils::sharedFileUtils()->fullPathForFilename(fShaderFilename, 0).c_str()
 			)
 		);
 		m_shaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
