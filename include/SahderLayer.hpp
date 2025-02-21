@@ -126,7 +126,7 @@ public:
 
 	auto getValueContainer(std::string id) {
 		auto casted = typeinfo_cast<ShaderValueContainer*>(this->getChildByID(id));
-		return casted ? casted : m_mainValueContainer;
+		return casted ? casted : m_mainValueContainer.data();
 	}
 
 };
