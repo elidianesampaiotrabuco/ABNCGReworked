@@ -1,6 +1,8 @@
 #pragma once
 #include <Geode/Geode.hpp>
 
+#define debug error
+
 using namespace geode::prelude;
 
 //made for dynamic value adding and change, 
