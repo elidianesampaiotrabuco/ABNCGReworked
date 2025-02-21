@@ -42,7 +42,7 @@ public:
 
 		m_shaderProgram = new CCGLProgram();
 		log::debug(
-			__FUNCTION__".shaderInitResult({}) = {}", fShaderFilename,
+			"{}.shaderInitResult({}) = {}", __func__, fShaderFilename,
 			m_shaderProgram->initWithVertexShaderFilename(vShaderFilename, fShaderFilename)
 		);
 		m_shaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
