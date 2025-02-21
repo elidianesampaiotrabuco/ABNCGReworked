@@ -47,7 +47,10 @@ log::debug("{}:{}",__FUNCTION__,__LINE__);
 log::debug("{}:{}",__FUNCTION__,__LINE__);
 		log::debug(
 			"{}.shaderInitResult({}) = {}", __func__, fShaderFilename,
-			m_shaderProgram->initWithVertexShaderFilename(vShaderFilename, fShaderFilename)
+			m_shaderProgram->initWithVertexShaderFilename(
+				CCFileUtils::sharedFileUtils()->fullPathForFilename(vShaderFilename).c_str(),
+				CCFileUtils::sharedFileUtils()->fullPathForFilename(fShaderFilename).c_str()
+			)
 		);
 		m_shaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
         	m_shaderProgram->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
