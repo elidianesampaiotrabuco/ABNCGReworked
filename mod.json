@@ -25,10 +25,10 @@
 	],
 	"resources": {
 		"files": [
-			"assets/files/**/*"
+			"assets/files/**/*.*"
 		],
 		"sprites": [
-			"assets/sprites/**/*"
+			"assets/sprites/**/*.*"
 		]
 	}
 }

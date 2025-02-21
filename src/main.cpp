@@ -159,13 +159,59 @@ class $modify(PlayerObjectExt, PlayerObject) {
 	}
 };
 
+#include <Geode/modify/CCMenuItemSpriteExtra.hpp>
+class $modify(CCMenuItemSpriteExtraExt, CCMenuItemSpriteExtra) {
+	$override void selected() {
+		if (m_selectSound.empty()) this->m_selectSound = "btnClick.ogg";
+		if (auto spr = typeinfo_cast<CCSprite*>(this->getNormalImage())) {
+			spr->setCascadeColorEnabled(1);
+			spr->setCascadeOpacityEnabled(1);
+			if (spr->getColor() == ccWHITE) {
+				this->m_animationEnabled = this->m_animationType == MenuAnimationType::Move;
+				this->m_colorEnabled = this->m_animationType == MenuAnimationType::Scale;
+			};
+		}
+		return CCMenuItemSpriteExtra::selected();
+	}
+};
+
 #include <Geode/modify/GManager.hpp>
-class $modify(GManager) {
+class $modify(ResourcesLoader, GManager) {
+	static void replaceFrames() {
+		auto rpl = [](const char* name, const char* texture = "")
+			{
+				auto a = fmt::format("{}"_spr, std::string(texture).empty() ? name : texture);
+				auto sprite = CCSprite::create(a.c_str());
+				if (sprite) CCSpriteFrameCache::get()->addSpriteFrame(
+					sprite->displayFrame(), name
+				);
+			};
+		rpl("GJ_table_bottom_001.png");
+		rpl("GJ_table_side_001.png");
+		rpl("GJ_table_top_001.png");
+		rpl("GJ_topBar_001.png");
+		rpl("GJ_sideArt_001.png");
+		rpl("GJ_infoIcon_001.png");
+		rpl("GJ_arrow_01_001.png", "_GoBackBtn.png");
+		//rpl("GJ_arrow_02_001.png", "_GoBackBtn.png");
+		rpl("GJ_arrow_03_001.png", "_GoBackBtn.png");
+	}
 	$override void setup() {
 		CCFileUtils::sharedFileUtils()->addPriorityPath(
 			Mod::get()->getResourcesDir().string().c_str()
 		);
 		GManager::setup();
+	}
+};
+
+
+#include <Geode/modify/GameManager.hpp>
+class $modify(GameManagerExt, GameManager) {
+	$override int countForType(IconType p0) {
+		return 1;
+	}
+	$override ccColor3B colorForIdx(int p0) {
+		return ccWHITE;
 	}
 };
 
@@ -251,6 +297,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 		};
 	}
 	bool init() {
+		ResourcesLoader::replaceFrames();
 		if (!MenuLayer::init()) return false;
 
 		if (1) findFirstChildRecursive<CCNode>(
@@ -277,7 +324,6 @@ auto item = CCMenuItemExt::createSpriteExtra(\
 		if (button_node) if (auto cast = typeinfo_cast<CCMenuItem*>(button_node)) cast->activate();\
 	}\
 );\
-item->m_selectSound = "btnClick.ogg";\
 item->setCascadeColorEnabled(1);\
 item->setAnchorPoint({0.f, 0.5f});\
 menu->addChild(item);\
@@ -352,7 +398,6 @@ menu->addChild(item);\
 		if (overlay) {
 			overlay->setID("overlay"_spr);
 			overlay->setAnchorPoint(CCPointMake(0.f, 0.f));
-			overlay->setOpacity(190);
 			queueInMainThread([this, overlay]
 				{
 					overlay->setScaleX(
