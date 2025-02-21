@@ -266,7 +266,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 		menu->setID("menu"_spr);
 
 		menu->addChild(SimpleTextArea::create("Umbral Abyss", "gjFont30.fnt", 1.0f), 0, 56829);
-		menu->getChildByTag(56829)->addChild(SahderLayer::create("menuTitle.vsh", "menuTitle.fsh"));
+		//menu->getChildByTag(56829)->addChild(SahderLayer::create("menuTitle.vsh", "menuTitle.fsh"));
 
 #define menu_button_as_label(name, id) { \
 auto item = CCMenuItemExt::createSpriteExtra(\
@@ -293,13 +293,13 @@ menu->addChild(item);\
 		menu->setAnchorPoint({ 0.f, 0.5f });
 		this->addChildAtPosition(menu, Anchor::Left, {66.6f,0}, 0);
 
-		menu->addChild(SahderLayer::create("basic.vsh", "menu.fsh"));
+		//menu->addChild(SahderLayer::create("basic.vsh", "menu.fsh"));
 
 		//bg
 		auto bg = CCLayer::create();
 		bg->setID("bg"_spr);
 		this->addChild(bg, -3);
-
+/*
 		auto shaderedBG = SahderLayer::create("basic.vsh", "menuBG.fsh");
 		shaderedBG->addValueContainer("center")->setAnchorPoint({ 0.650f, 0.500f});
 		shaderedBG->addValueContainer("radius")->setScale(0.625f);
@@ -328,7 +328,7 @@ menu->addChild(item);\
 				shader->setUniformsForBuiltins();
 			};
 		bg->addChild(shaderedBG, 999);
-
+*/
 		auto bg0 = CCSprite::create("bg0.png"_spr);
 		bg0->setID("bg0"_spr);
 		bg0->setPosition(CCPointMake(418.f, 92.f));
