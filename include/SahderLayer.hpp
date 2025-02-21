@@ -41,7 +41,10 @@ public:
 		m_renderTexture = CCRenderTexture::create(111, 111);
 
 		m_shaderProgram = new CCGLProgram();
-		m_shaderProgram->initWithVertexShaderFilename(vShaderFilename, fShaderFilename);
+		log::debug(
+			__FUNCTION__".shaderInitResult({}) = {}", fShaderFilename,
+			m_shaderProgram->initWithVertexShaderFilename(vShaderFilename, fShaderFilename)
+		);
 		m_shaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
         	m_shaderProgram->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
         	m_shaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
