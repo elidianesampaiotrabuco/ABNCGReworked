@@ -14,9 +14,9 @@ public:
 
 class SahderLayer : public CCSprite {
 public:
-	Ref<CCRenderTexture> m_renderTexture;
 	CCGLProgram* m_shaderProgram;
-	ShaderValueContainer* m_mainValueContainer;
+	Ref<CCRenderTexture> m_renderTexture;
+	Ref<ShaderValueContainer> m_mainValueContainer;
 	float m_time;
 
 	std::function<void()> m_onDrawBegin = []() {};
@@ -38,14 +38,16 @@ public:
 
 		m_mainValueContainer = ShaderValueContainer::create();
 
-		m_renderTexture = CCRenderTexture::create(0, 0);
+		m_renderTexture = CCRenderTexture::create(111, 111);
 
 		m_shaderProgram = new CCGLProgram();
 		m_shaderProgram->initWithVertexShaderFilename(vShaderFilename, fShaderFilename);
 		m_shaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-		m_shaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+        	m_shaderProgram->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
+        	m_shaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 		m_shaderProgram->link();
 		m_shaderProgram->updateUniforms();
+		CCShaderCache::sharedShaderCache()->addProgram(m_shaderProgram, fShaderFilename);
 
 		this->scheduleUpdate();
 
@@ -77,14 +79,14 @@ public:
 		parent->visit();
 		m_renderTexture->end();
 
+		this->setVisible(oldVisible);
+
 		this->initWithSpriteFrame(CCSpriteFrame::createWithTexture(
 			m_renderTexture->getSprite()->getTexture(),
 			parent->boundingBox()
 		));
 		this->setShaderProgram(m_shaderProgram);
 		this->setFlipY(true);
-
-		this->setVisible(oldVisible);
 
 		this->setPosition(ccp(parent->getContentSize().width / 2, parent->getContentSize().height / 2));
 
@@ -102,7 +104,7 @@ public:
 
 		m_onDrawBegin();
 
-		CCSprite::draw();
+		CC_NODE_DRAW_SETUP();
 
 		GLint timeLocation = glGetUniformLocation(m_shaderProgram->getProgram(), "time");
 		glUniform1f(timeLocation, m_time);
@@ -110,8 +112,6 @@ public:
 		auto winSize = this->getParent()->getContentSize();
 		GLint resolutionLoc = glGetUniformLocation(m_shaderProgram->getProgram(), "resolution");
 		glUniform2f(resolutionLoc, winSize.width, winSize.height);
-
-		m_shaderProgram->setUniformsForBuiltins();
 
 		m_onDrawEnd();
 
