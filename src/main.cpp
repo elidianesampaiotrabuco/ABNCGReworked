@@ -1,5 +1,7 @@
 #include <_main.hpp>
 
+#include <SahderLayer.hpp>
+
 #define in_range(a, m, t) (a >= m and a <= t)
 
 #include <Geode/modify/GJBaseGameLayer.hpp>
@@ -266,7 +268,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 		menu->setID("menu"_spr);
 
 		menu->addChild(SimpleTextArea::create("Umbral Abyss", "gjFont30.fnt", 1.0f), 0, 56829);
-		menu->getChildByTag(56829)->addChild(SahderLayer::create("menuTitle.vsh", "menuTitle.fsh"));
+		menu->getChildByTag(56829)->addChild(SahderLayer::create("basic.vsh", "menuListTitle.fsh"));
 
 #define menu_button_as_label(name, id) { \
 auto item = CCMenuItemExt::createSpriteExtra(\

@@ -1,8 +1,6 @@
 #pragma once
 #include <Geode/Geode.hpp>
 
-#define debug error
-
 using namespace geode::prelude;
 
 //made for dynamic value adding and change, 
@@ -36,28 +34,43 @@ public:
 	};
 
 	virtual bool init(const char* vShaderFilename, const char* fShaderFilename) {
-log::debug("{}:{}",__FUNCTION__,__LINE__);
 		if (!CCSprite::init()) return false;
-log::debug("{}:{}",__FUNCTION__,__LINE__);
+
 		m_mainValueContainer = ShaderValueContainer::create();
-log::debug("{}:{}",__FUNCTION__,__LINE__);
+
 		m_renderTexture = CCRenderTexture::create(111, 111);
-log::debug("{}:{}",__FUNCTION__,__LINE__);
+
+		std::filesystem::path vertexPath = (std::string)CCFileUtils::get()->fullPathForFilename(
+			vShaderFilename, false
+		);
+		auto vertexSource = file::readString(vertexPath);
+		if (!vertexSource) log::error(
+			"failed to read vertex shader at path {}: {}",
+			vertexPath.string(), vertexSource.unwrapErr()
+		);
+
+		std::filesystem::path fragmentPath = (std::string)CCFileUtils::get()->fullPathForFilename(
+			fShaderFilename, false
+		);
+		auto fragmentSource = file::readString(fragmentPath);
+		if (!fragmentSource) log::error(
+			"failed to read fragment shader at path {}: {}", 
+			fragmentPath.string(), fragmentSource.unwrapErr()
+		);
+
 		m_shaderProgram = new CCGLProgram();
-log::debug("{}:{}",__FUNCTION__,__LINE__);
 		log::debug(
 			"{}.shaderInitResult({}) = {}", __func__, fShaderFilename,
-			m_shaderProgram->initWithVertexShaderFilename(
-				CCFileUtils::sharedFileUtils()->fullPathForFilename(vShaderFilename, 0).c_str(),
-				CCFileUtils::sharedFileUtils()->fullPathForFilename(fShaderFilename, 0).c_str()
+			m_shaderProgram->initWithVertexShaderByteArray(
+				vertexSource.unwrap().c_str(), 
+				fragmentSource.unwrap().c_str()
 			)
 		);
 		m_shaderProgram->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-        	m_shaderProgram->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
-        	m_shaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
+		m_shaderProgram->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
+		m_shaderProgram->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
 		m_shaderProgram->link();
 		m_shaderProgram->updateUniforms();
-		CCShaderCache::sharedShaderCache()->addProgram(m_shaderProgram, fShaderFilename);
 
 		this->scheduleUpdate();
 
@@ -111,11 +124,12 @@ log::debug("{}:{}",__FUNCTION__,__LINE__);
 	}
 
 	virtual void draw() {
-log::debug("{}:{}",__FUNCTION__,__LINE__);
+
 		m_onDrawBegin();
-log::debug("{}:{}",__FUNCTION__,__LINE__);
+
+		CCSprite::draw();
 		CC_NODE_DRAW_SETUP();
-log::debug("{}:{}",__FUNCTION__,__LINE__);
+
 		GLint timeLocation = glGetUniformLocation(m_shaderProgram->getProgram(), "time");
 		glUniform1f(timeLocation, m_time);
 

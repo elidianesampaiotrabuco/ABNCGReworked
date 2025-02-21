@@ -8,8 +8,6 @@ using namespace geode::prelude;
 #include <fs.hpp>
 #include <imgui.hpp>
 
-#include <SahderLayer.hpp>
-
 //lol
 #define SETTING(type, key_name) Mod::get()->getSettingValue<type>(key_name)
 
