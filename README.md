@@ -1,13 +1,13 @@
-## Umbral Abyss
+## ASTerisk's Brand New Cube Game REWORKED!
 
-upcoming game-in-game modification... xd
+Basically GD, but remastered as a cool platformer game! (HEAVY WIP)
 
-- dark interface and new sounds
-- new levels (story ones and infinity run)
-- new game-modes: infinity run, story mode
-- animated char
+- Interface with Discord-ish colors and new sounds
+- New levels (Story ones and infinity run)
+- New game modes: Endless mode (OH MY GOD A BALDI'S BASICS REFERENCE!!!!), Story mode
+- You now play as ASTerisk, the creator of this mod, instead of some kind of a random guy.
 
-\- user95401, Umbral Abyss
+\- user95401, creator of Umbral Abyss and his other mods
 
 <img src="logo.png" width="150" alt="the mod's logo" />
 

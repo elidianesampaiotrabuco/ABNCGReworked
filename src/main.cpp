@@ -314,7 +314,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 		auto menu = CCMenu::create();
 		menu->setID("menu"_spr);
 
-		menu->addChild(SimpleTextArea::create("Umbral Abyss", "gjFont30.fnt", 1.0f), 0, 56829);
+		menu->addChild(SimpleTextArea::create("ABNCG Rework", "gjFont30.fnt", 1.0f), 0, 56829);
 		menu->getChildByTag(56829)->addChild(SahderLayer::create("basic.vsh", "menuListTitle.fsh"));
 
 #define menu_button_as_label(name, id) { \
